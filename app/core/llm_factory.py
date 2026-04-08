@@ -30,7 +30,7 @@ class LLMFactory:
         api_key: str | None = None,
     ) -> ChatOpenAI:
         model = model or config.dashscope_model
-        base_url = base_url or LLMFactory.DASHSCOPE_BASE_URL
+        base_url = base_url or config.dashscope_api_base
         api_key = api_key or config.dashscope_api_key
 
         # 参考：https://help.aliyun.com/zh/model-studio/getting-started/models

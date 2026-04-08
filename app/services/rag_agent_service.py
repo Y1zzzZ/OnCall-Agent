@@ -92,6 +92,7 @@ class RagAgentService:
         self.model = ChatQwen(
             model=self.model_name,
             api_key=config.dashscope_api_key,
+            base_url=config.dashscope_api_base,
             temperature=0.7,
             streaming=streaming,
         )

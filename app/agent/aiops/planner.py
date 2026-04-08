@@ -125,7 +125,8 @@ async def planner(state: PlanExecuteState) -> Dict[str, Any]:
         llm = ChatQwen(
             model=config.rag_model,
             api_key=config.dashscope_api_key,
-            temperature=0
+            base_url=config.dashscope_api_base,
+            temperature=0,
         )
 
         planner_chain = planner_prompt | llm.with_structured_output(Plan)

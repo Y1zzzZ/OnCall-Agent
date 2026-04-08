@@ -14,6 +14,7 @@ from app.config import config
 from loguru import logger
 from app.api import chat, health, file, aiops
 from app.core.milvus_client import milvus_manager
+from app.services.vector_store_manager import vector_store_manager
 
 
 @asynccontextmanager
@@ -30,6 +31,11 @@ async def lifespan(app: FastAPI):
     logger.info("🔌 正在连接 Milvus...")
     milvus_manager.connect()
     logger.info("✅ Milvus 连接成功")
+    
+    # 初始化 VectorStoreManager
+    logger.info("🔌 正在初始化 VectorStore...")
+    vector_store_manager.init_vector_store()
+    logger.info("✅ VectorStore 初始化成功")
     
     logger.info("=" * 60)
     

@@ -3,8 +3,15 @@
 使用 Pydantic Settings 实现类型安全的配置管理
 """
 
-from typing import Dict, Any
+from typing import Any, Dict
+
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# 在 Pydantic Settings 初始化之前，必须先加载 .env 文件
+# 否则 pydantic_settings 会读取不到环境变量（虽然 .env 存在）
+from dotenv import load_dotenv
+load_dotenv()
 
 
 class Settings(BaseSettings):
@@ -26,8 +33,17 @@ class Settings(BaseSettings):
 
     # DashScope 配置
     dashscope_api_key: str = ""  # 默认空字符串，实际使用需从环境变量加载
+    # 国内百炼 Key 须用北京域名；langchain_qwq.ChatQwen 默认是国际站，必须通过配置显式指定
+    dashscope_api_base: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"
     dashscope_model: str = "qwen-max"
     dashscope_embedding_model: str = "text-embedding-v4"  # v4 支持多种维度（默认 1024）
+
+    @field_validator("dashscope_api_key", "dashscope_api_base", mode="before")
+    @classmethod
+    def strip_secrets(cls, v: Any) -> Any:
+        if isinstance(v, str):
+            return v.strip()
+        return v
 
     # Milvus 配置
     milvus_host: str = "localhost"
