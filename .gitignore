@@ -1,80 +1,31 @@
+# 环境变量（包含敏感配置）
+.env
+
+# 日志文件
+logs/
+*.log
+
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Virtual Environment
+.venv/
 venv/
-env/
-ENV/
-.venv
+*.egg-info/
+.eggs/
 
-# uv
-.uv/
-
-# Poetry (legacy)
-poetry.lock
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# CodeBuddy
-.codebuddy/
-
-# Environment
-.env.local
-
-# Logs
-logs/
-*.log
-*.pid
-
-# Database
-*.db
-*.sqlite
-
-# Milvus
+# Docker
 volumes/
 
-# Uploads
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 上传的临时文件
 uploads/
-*.tmp
 
 # OS
 .DS_Store
 Thumbs.db
-
-# Pytest
-.pytest_cache/
-.coverage
-htmlcov/
-
-# MyPy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Ruff
-.ruff_cache/
-

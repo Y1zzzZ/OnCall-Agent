@@ -1,7 +1,8 @@
 // SuperBizAgent 前端应用
 class SuperBizAgentApp {
     constructor() {
-        this.apiBaseUrl = 'http://localhost:9900/api';
+        // 与当前页面同源，公网/域名部署时勿写死 localhost
+        this.apiBaseUrl = `${window.location.origin}/api`;
         this.currentMode = 'quick'; // 'quick' 或 'stream'
         this.sessionId = this.generateSessionId();
         this.isStreaming = false;

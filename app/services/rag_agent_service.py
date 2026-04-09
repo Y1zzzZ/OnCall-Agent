@@ -232,7 +232,7 @@ class RagAgentService:
             return ""
 
         except Exception as e:
-            logger.error(f"[会话 {session_id}] RAG Agent 查询失败（非流式）: {e}")
+            logger.exception(f"[会话 {session_id}] RAG Agent 查询失败（非流式）: {e}")
             raise
 
     async def query_stream(
