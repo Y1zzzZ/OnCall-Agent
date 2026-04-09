@@ -6,8 +6,7 @@ RAG 系统自动评估台 (LLM-as-a-Judge)
 - 生成指标：忠实度 (Faithfulness) / 幻觉检测
 - 端到端指标：相关性 (Relevancy)、正确率 (Correctness)
 
-代码结构纯净，完全复刻从 Java `RAGEvaluator` 平移的高端企业级评估蓝图，
-可以利用强大的大模型当铁面上司，给自己打分。
+利用大模型作为评估器，对 RAG 系统进行自动化打分。
 """
 
 import json

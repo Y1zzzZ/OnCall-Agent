@@ -13,7 +13,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 import uvicorn
 
-app = FastAPI(title="SuperBiz Mock MCP Server")
+app = FastAPI(title="OnCallAgent Mock MCP Server")
 
 # 1. 模拟工具列表 (对应 Java 版的 EnterpriseTools)
 TOOLS = [

@@ -1,9 +1,8 @@
 """
 中枢大脑调度器 (Orchestrator Search Service)
 
-完美复刻你在 Ragent Java 工程里体会到的宏大设计：
-串联 Router (意图工具分配), 执行重入 (Recursive Loop 反思循环), 以及大生态 MCP Client 的挂载。
-它是 Python_ragent 真正的灵魂脏器。
+负责协调意图分类、查询改写、记忆管理和工具调用，
+是 RAG 与 MCP 生态的调度核心。
 """
 
 import json
@@ -32,9 +31,9 @@ class OrchestratorService:
         self.llm = LLMService()
         self.registry = ToolRegistry()
         self.mcp_client = HttpMCPClient()
-        self.memory = SummaryMemoryManager() # 挂载我们刚刚手搓的记忆神经元
-        self.rewriter = QueryRewriter()      # 挂载绝妙的指代消解神镜
-        self.classifier = IntentClassifier() # 挂载刚完工的分科室分诊台
+        self.memory = SummaryMemoryManager()
+        self.rewriter = QueryRewriter()
+        self.classifier = IntentClassifier()
         self.mcp_urls = mcp_urls or []
         
     async def initialize(self):
@@ -60,7 +59,7 @@ class OrchestratorService:
         if self.mcp_urls:
             await self.registry.initialize_mcp_servers(self.mcp_urls)
             
-        logger.info("🧠 天网中枢启运完毕！所有的本地函数流与 MCP 节点群已装填进入待发状态。")
+        logger.info("中枢调度器初始化完成。")
 
     async def _force_rag_search(self, query: str, collection_name: str = None) -> str:
         """
@@ -73,22 +72,20 @@ class OrchestratorService:
                 top_k=5,
                 collection_name=collection_name
             )
-            logger.info(f"🏥 [强制 RAG] 检索完毕，结果长度: {len(result)} 字")
+            logger.info(f"[强制 RAG] 检索完毕，结果长度: {len(result)} 字")
             return result
         except Exception as e:
-            logger.error(f"🏥 [强制 RAG] 检索失败: {e}")
+            logger.error(f"[强制 RAG] 检索失败: {e}")
             return "（知识库检索失败，无法提供相关内容）"
 
     async def execute_tool(self, tool_name: str, arguments: str, collection_name: str = None) -> str:
         """
-        【十字路口转发枢纽】：全宇宙所有的 Tool Intent 都在这分流。
-        左转进本地 Python 本地核心栈，右转进外延万里的 MCP 协议栈。
+        工具调用分发枢纽：负责将工具调用分发到本地函数或远端 MCP 服务。
         """
         try:
-            # 千问大模型生成的严格 JSON 字符串，我们需要解析
             args_dict = json.loads(arguments) if arguments else {}
         except Exception as e:
-            return f"Error: 工具参数大模型胡编失败，不是合法 JSON 格式。报错: {str(e)}"
+            return f"Error: 工具参数解析失败，不是合法 JSON 格式。报错: {str(e)}"
 
         if self.registry.is_local(tool_name):
             logger.info(f"⚙️ 引擎调度 [本地 RAG 函数]: {tool_name} | 参数: {args_dict} | 集合: {collection_name}")
@@ -97,13 +94,12 @@ class OrchestratorService:
                 # 如果是 RAG 工具，尝试注入 collection_name
                 if tool_name == "query_internal_knowledge_base" and collection_name:
                     args_dict["collection_name"] = collection_name
-                
-                # 我们的管道是全双工 async 的，直接等待跑完 RAG
-                result = await func(**args_dict) 
+
+                result = await func(**args_dict)
                 return str(result)
             except Exception as e:
-                 logger.error(f"本地 RAG 函数执行严重雪崩: {e}")
-                 return f"Error: 内部出错 {str(e)}"
+                logger.error(f"本地函数执行异常: {e}")
+                return f"Error: 内部出错 {str(e)}"
                  
         elif self.registry.is_mcp(tool_name):
             logger.info(f"🌐 引擎调度 [远端 MCP 节点转发]: {tool_name} | 参数: {args_dict}")

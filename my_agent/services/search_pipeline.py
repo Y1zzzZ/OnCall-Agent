@@ -1,8 +1,8 @@
 """
 核心知识库检索流水线 (Search Pipeline)
 
-将 Dense Retrieval, BM25, RRF 融合，以及 Cross-Encoder 重排序封装成一个易用的独立管道。
-这是 RAG 最王牌、最不容闪失的一段业务流。
+将 Dense Retrieval, BM25, RRF 融合，以及 Cross-Encoder 重排序封装成独立管道，
+实现高质量的知识检索。
 """
 
 from typing import List, Dict, Any
@@ -10,7 +10,6 @@ from loguru import logger
 import asyncio
 import time
 
-# 引入我们自己手搓的纯正基建
 from my_agent.core.milvus_manager import MilvusManager
 from my_agent.services.embedding_service import DashScopeEmbeddingService
 from my_agent.services.rerank_service import DashScopeRerankService

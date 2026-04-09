@@ -45,7 +45,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Super Biz Agent API",
+    title="OnCallAgent API",
     description="企业级 RAG + MCP 智能对话后端",
     version="1.0.0",
     lifespan=lifespan

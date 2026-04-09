@@ -1,6 +1,6 @@
 """
 Replanner 节点：重新规划或生成最终响应
-基于 LangGraph 官方教程实现
+参考 LangGraph Plan-Execute 模式，结合 AIOps 业务场景实现
 """
 
 from textwrap import dedent

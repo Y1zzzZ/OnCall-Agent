@@ -1,10 +1,8 @@
 """
-MCP 客户端核心 (MCP HTTP Client)
-对应 Java 版的: com.nageoffer.ai.ragent.rag.core.mcp.client.HttpMCPClient
+MCP HTTP 客户端
 
-负责通过网络（HTTP/SSE 等）向远端的 MCP Server（如我们的 mcp-server 服务）发送标准的 tools/list 和 tools/call 指令。
-这里我们推荐使用 Python 现代异步库 `httpx`，以极致榨干高并发网络 I/O 性能。
-(如果没有安装，请执行: pip install httpx)
+负责通过网络向远端 MCP Server 发送标准的 tools/list 和 tools/call 指令，
+使用 httpx 实现高并发异步网络 I/O。
 """
 
 import httpx

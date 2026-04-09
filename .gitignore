@@ -1,5 +1,9 @@
+# 前端依赖
+node_modules/
+
 # 环境变量（包含敏感配置）
 .env
+.env.example
 
 # 日志文件
 logs/
@@ -23,8 +27,18 @@ volumes/
 *.swp
 *.swo
 
+# 临时文件
+*.tar
+*.tar.gz
+*.zip
+
 # 上传的临时文件
 uploads/
+
+# 测试文档（本地使用）
+tmp_test_docs/
+tmp_test_docs_v3/
+tmp_test_docs_final/
 
 # OS
 .DS_Store
